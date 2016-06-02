@@ -1,50 +1,51 @@
-var listItem ={
-   init: function() {
-   document.querySelector('form').onsubmit = listItem.addToList;
- },
-   promo : function(ev) {
-    //this.ev.preventDefault();
-    debugger;
-    this.parentNode.style.border= "solid blue" ;
+$(document).foundation();
 
+var BasicForm = {
+
+  init: function() {
+    document.querySelector('form').onsubmit = this.addValuesToDetails;
   },
 
-   del : function(ev){
-    //this.parentNode.ev.preventDefault();
-    this.parentNode.remove();
+  buildColorDiv: function(color) {
+    if (color === undefined) {
+      color = 'red';
+    }
+    return '<div style="height: 100px; width: 100px; background-color: ' + color + '"></div>';
   },
 
-  buildList : function(name) {
-  var listElement = document.createElement('dt');
- var dd = document.createElement('dd');
- dd.innerHTML =name;
- listElement.appendChild(dd);
- var delBtn = document.createElement('button');
+  buildList: function(listValues) {
+    var dl = document.createElement('dl');
+    dl.style.border = '1px solid #ff0033';
+    dl.appendChild(this.buildListItem('Name', listValues.name));
+    dl.appendChild(this.buildListItem('Hair Color', listValues.hairColor));
+    dl.appendChild(this.buildListItem('Age', listValues.age));
+    dl.appendChild(this.buildListItem('Birthplace', listValues.birthplace));
+    return dl;
+  },
 
- delBtn. onclick = this.del;
- delBtn.style = "padding-left: 50px";
- delBtn.innerHTML = 'Delete';
- listElement.appendChild(delBtn);
+  buildListItem: function(term, definition) {
+    var li = document.createElement('li');
+    var dt = document.createElement('dt');
+    var dd = document.createElement('dd');
+    dt.innerHTML = term;
+    dd.innerHTML = definition;
+    li.appendChild(dt);
+    li.appendChild(dd);
+    return li;
+  },
 
- var promoBtn = document.createElement('button');
- promoBtn.innerHTML = 'Promote </dd></dt>';
- promoBtn.onclick = this.promo;
- promoBtn.style = 'padding-left: 50px';
- listElement.appendChild(promoBtn);
- return listElement;
- },
+  addValuesToDetails: function(ev) {
+    ev.preventDefault();
+    var details = document.querySelector('.details');
+    var formValues = {
+      name: this.name.value,
+      age: this.age.value,
+      birthplace: this.birthplace.value,
+      hairColor: BasicForm.buildColorDiv(this.hairColor.value)
+    };
 
+    details.appendChild(BasicForm.buildList(formValues));
+  }
+};
 
-  addToList : function(ev) {
-   ev.preventDefault();
-   debugger;
-  var nameList =  document.querySelector('#nameList');
-
-     nameList.insertBefore(listItem.buildList(this.name.value),nameList.childNodes[0]);
-     flag = 0;
-
-
- },
-
- };
- listItem.init();
+BasicForm.init();
