@@ -6,14 +6,30 @@ var megaRoster = {
   },
 
   setupEventListeners: function() {
-    document.querySelector('form').onsubmit = this.addStudent;
+    document.querySelector('#studentForm').onsubmit = this.addStudent.bind(this);
   },
 
   addStudent: function(ev) {
     ev.preventDefault();
-    console.log('hello world');
+    var f = ev.currentTarget;
+    var studentName = f.studentName.value;
+    var item = this.buildListItem(studentName);
+    var list = document.querySelector('#studentList');
+    list.appendChild(item);
+    f.reset();
+    f.studentName.focus();
   },
 
+  buildListItem: function(studentName) {
+    var item = document.createElement('li');
+    item.innerText = studentName;
+    return item;
+  },
+
+  buildLink: function();
+  {
+    
+  }
 }
 
 megaRoster.init();
