@@ -4,38 +4,33 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foundation for Sites</title>
+    <title>MegaRoster</title>
     <link rel="stylesheet" href="css/foundation.css">
     <link rel="stylesheet" href="css/app.css">
   </head>
   <body>
-    <div class="row">
-      <div class="medium-8 medium-offset-2 columns">
+
+    <div class = "row">
+      <div class = "medium-8 medium-offset-2 columns">
         <h2>MegaRoster</h2>
-        <form id="studentForm">
-          <div class="small-9 columns">
-            <input type="text"
-                 name="studentName"
-                 placeholder="Enter student name">
+        <form id = "studentForm">
 
-         </div>
-         <div class="small-3 columns">
-           <button type="submit" class="expanded button">Add Student</button>
-         </div>
+          <div class="small-9 columns ">
+          <input type="text" name="studentName" placeholder="Name" required>
+          </div>
+
+          <div class="small-3 columns">
+          <button class= "expanded button" type= "submit">Add Student</button>
+        </div>
         </form>
-      </div>
-    </div>
+       </div>
 
+    </div>
     <div class="row">
-      <div class="medium-8 medium-offset-2 columns">
-        <ul id="studentList" class="no-bullet">
-          <li>
-            <h3>Testing</h3>
-          </li>
-        </ul>
-      </div>
+      <div class = "medium-8 medium-offset-2 columns">
+        <ul id = studentList class="no-bullet"> </ul>
     </div>
-
+  </div>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/vendor/what-input.js"></script>
     <script src="js/vendor/foundation.js"></script>
