@@ -1,4 +1,4 @@
-R = 
+R =
 
 (function() {
     var R = {
@@ -14,23 +14,23 @@ R =
             R.promotedRoster = R.id('roster_promoted_list');
             R.addButton = R.id('roster_add_button');
             R.form = R.id('roster_head');
-                
+
             try{
                 R.populateRoster(R.rosterObj);
                 R.restoreInputField();
             }catch (e){
                 console.log('load failed')
-                localStorage.removeItem('rosterObj'); 
+                localStorage.removeItem('rosterObj');
                 R.rosterObj = {length: 0, count: 0, addField: '', head: null, tail: null,};
             }
             R.inputField.onkeyup = R.addInputKeyupHandler;
             onunload = R.unloadHandler;
 
-            R.form.onsubmit = R.rosterAdd; 
+            R.form.onsubmit = R.rosterAdd;
         },
-        
+
         id: document.getElementById.bind(document),
-        
+
         genElem: document.createElement.bind(document),
 
         restoreInputField: function(){
@@ -61,7 +61,7 @@ R =
             if (R.rosterObj.head !== null){
                 R.rosterObj[R.rosterObj.head].next = obj.id;
             }
-            
+
             R.rosterObj.head = obj.id;
 
             R.rosterObj.length++;
@@ -72,8 +72,8 @@ R =
             e.preventDefault();
 
             if(!R.id('roster_add_button').classList.contains('disabled')){
-                R.addEntry({id: R.rosterObj.count, 
-                            value: R.inputField.value, 
+                R.addEntry({id: R.rosterObj.count,
+                            value: R.inputField.value,
                             restoreValue: null,
                             promoted:false,
                             editing:false,});
@@ -88,17 +88,17 @@ R =
         },
 
         createEntry: function(obj){
-            var deleteButton = R.createButton('delete', obj.id);
             var promoteButton = R.createButton('promote', obj.id);
             var editButton = R.createButton('edit', obj.id);
             var upButton = R.createButton('up', obj.id);
             var downButton = R.createButton('down', obj.id);
-            
+            var deleteButton = R.createButton('delete', obj.id);
+
             var field = R.createField(obj.value, obj.id);
-            
-            var entry = R.assembleEntry(field, obj.id, 
+
+            var entry = R.assembleEntry(field, obj.id,
                 [deleteButton, editButton, promoteButton, upButton, downButton]);
-            
+
             if(obj.promoted){
                 R.promoteEntry(entry);
             }else{
@@ -119,7 +119,7 @@ R =
         createField: function(input, count){
             var field = document.createElement('input');
 
-            field.className = 
+            field.className =
                 'roster_input roster_list_item_text_container primary flex_container';
             field.setAttributeNode(document.createAttribute("disabled"));
             field.type = 'text';
@@ -141,7 +141,7 @@ R =
             entry.appendChild(field);
 
             buttons.forEach(function(button){
-                entry.appendChild(button);                
+                entry.appendChild(button);
             });
 
             entry.id = 'roster_entry_' + count;
@@ -175,9 +175,6 @@ R =
             button.dataset.rosterCount = count;
 
             switch (rosterButtonType) {
-                case 'delete':
-                    R.moldDeleteButton(button);
-                    break;
                 case 'promote':
                     R.promoteButton(button);
                     break;
@@ -193,8 +190,11 @@ R =
                 case 'down':
                     R.downButton(button);
                     break;
+                case 'delete':
+                    R.moldDeleteButton(button);
+                    break;
             }
-           
+
             return button;
         },
 
@@ -208,10 +208,6 @@ R =
         addInputKeyupHandler: function(ev){
             R.rosterObj.addField = ev.currentTarget.value;
             R.maintainButton(R.inputField, R.addButton);
-        },
-
-        deleteEntryHandler: function(ev){
-            R.deleteEntry(ev.currentTarget);
         },
 
         promoteEntryHandler: function(ev){
@@ -237,7 +233,7 @@ R =
         entryFieldKeyupHandler: function(ev){
             var field = ev.currentTarget;
             R.rosterObj[R.getEntryId(field)].value = field.value;
-            
+
             R.maintainButton(field, R.getButton(R.getEntry(field), 'save'));
         },
 
@@ -256,7 +252,7 @@ R =
             obj.restoreValue = entry.field.value;
             R.editEntry(R.getCount(ev.currentTarget));
         },
-        
+
         upEntryHandler: function(ev){
             R.upEntry(R.getCount(ev.currentTarget));
         },
@@ -264,7 +260,11 @@ R =
         downEntryHandler: function(ev){
             R.downEntry(R.getCount(ev.currentTarget));
         },
-        
+
+        deleteEntryHandler: function(ev){
+            R.deleteEntry(ev.currentTarget);
+        },
+
         restoreEntryKeydownHandler: function(ev){
             var field = ev.currentTarget;
 
@@ -273,29 +273,29 @@ R =
                 R.restoreEntry(R.getCount(field));
             }
         },
-        
+
         getEntry: function(button){
             var entry;
-            
+
             if(button.classList !== undefined && button.classList.contains('roster_entry')){
                 entry = button;
             }else if (button.dataset !== undefined && button.dataset.rosterCount !== undefined){
-                entry = R.id('roster_entry_' + button.dataset.rosterCount); 
+                entry = R.id('roster_entry_' + button.dataset.rosterCount);
             }else if (typeof button === 'number'){
-                entry = R.id('roster_entry_' + button);               
+                entry = R.id('roster_entry_' + button);
             }
-            
+
             entry.field = entry.querySelector('.roster_list_item_text_container');
-        
+
             return entry;
         },
-        
+
         upEntryObj: function(obj){
             var pp = R.rosterObj[R.rosterObj[obj.prev].prev];
             var prev = R.rosterObj[obj.prev];
             var cur = obj;
             var next = R.rosterObj[obj.next];
-   
+
             if( obj.id === R.rosterObj.head ) {
                 prev.next = null;
                 R.rosterObj.head = prev.id;
@@ -303,7 +303,7 @@ R =
                 prev.next = next.id;
                 next.prev = prev.id;
             }
-            
+
             prev.prev = cur.id;
 
             if ( prev.id === R.rosterObj.tail ) {
@@ -320,7 +320,7 @@ R =
             if(next !== null){
             }else{
             }
-            
+
             //prev is not tail
             if(pp !== null){
             }else{
@@ -350,20 +350,20 @@ R =
 
             return obj;
         },
-        
+
         upEntry: function(count){
-            var entry = R.getEntry(count); 
-            
+            var entry = R.getEntry(count);
+
             if(entry.previousElementSibling !== null){
                 R.upEntryObj(R.rosterObj[count]);
-                
+
                 entry.parentElement.insertBefore(entry, entry.previousElementSibling);
             }
         },
 
         downEntry: function(count){
-            var entry = R.getEntry(count); 
-    
+            var entry = R.getEntry(count);
+
             if(entry.nextElementSibling !== null){
                 R.downEntryObj(R.rosterObj[count]);
 
@@ -374,7 +374,7 @@ R =
         upButton: function(button){
             R.clearButton(button);
             R.appendIcon(button, 'arrow-up');
-        
+
             button.classList.add('roster_up_button');
 
             button.onclick = R.upEntryHandler;
@@ -383,18 +383,18 @@ R =
         downButton(button){
             R.clearButton(button);
             R.appendIcon(button, 'arrow-down');
-       
+
             button.classList.add('roster_down_button');
-             
+
             button.onclick = R.downEntryHandler;
         },
 
         editButton: function(button){
             R.clearButton(button);
             R.appendIcon(button, 'pencil-square-o');
-            
+
             button.classList.add('roster_edit_button');
-            
+
             button.onclick = R.editEntryHandler;
         },
 
@@ -444,16 +444,16 @@ R =
 
             return icon;
         },
-            
+
         removeElement: function(elem){
             elem.parentElement.removeChild(elem);
-             
+
             return elem;
         },
 
         prependChild: function(par, chld){
             par.insertBefore(chld, par.firstChild);
-            
+
             return chld;
         },
 
@@ -462,7 +462,7 @@ R =
         },
 
         saveEntry: function(count){
-            var entry = R.getEntry(count); 
+            var entry = R.getEntry(count);
             var obj = R.rosterObj[R.getEntryId(entry)];
 
             obj.editing = false;
@@ -479,22 +479,22 @@ R =
         },
 
         restoreEntry: function(count){
-            var entry = R.getEntry(count); 
+            var entry = R.getEntry(count);
             var button = R.getButton(entry, 'save');
             var obj = R.rosterObj[R.getEntryId(entry)];
-            
+
             entry.field.onkeypress = null;
             entry.field.setAttributeNode(document.createAttribute("disabled"));
             entry.field.value = obj.restoreValue;
             obj.restoreValue = null;
-                
+
             entry.field.onkeypress = null;
             entry.field.onkeydown = null;
             entry.field.onkeyup = null;
-            
+
             R.editButton(button);
             R.maintainButton(entry.field, button);
-            
+
             obj.editing = false;
         },
 
@@ -504,24 +504,24 @@ R =
 
 
         editEntry: function(count){
-            var entry = R.getEntry(count); 
+            var entry = R.getEntry(count);
             var obj = R.rosterObj[R.getEntryId(entry)];
-     
+
             obj.editing = true;
-            
+
             //obj.restoreValue = entry.field.value;
-            
+
             entry.field.removeAttribute("disabled");
-            
-            entry.field.onkeydown = R.restoreEntryKeydownHandler; 
+
+            entry.field.onkeydown = R.restoreEntryKeydownHandler;
             entry.field.onkeypress = R.saveEntryKeypressHandler;
             entry.field.onkeyup = R.entryFieldKeyupHandler;
 
-            R.saveButton(R.getButton(entry, 'edit') || R.getButton(edit, 'save'));                        
+            R.saveButton(R.getButton(entry, 'edit') || R.getButton(edit, 'save'));
 
             entry.field.select();
         },
-            
+
         getButton: function(entry, name){
             return entry.querySelector('.roster_' + name + '_button');
         },
@@ -535,31 +535,31 @@ R =
         },
 
         demoteEntry: function(count){
-            var entry = R.getEntry(count); 
+            var entry = R.getEntry(count);
             var obj = R.rosterObj[R.getEntryId(entry)];
 
             obj.promoted = false;
 
             //R.removeElement(entry);
             //R.prependChild(R.roster, entry);
-            
+
             R.promoteButton(R.getButton(entry, 'demote') || R.getButton(entry, 'promote'));
 
-            R.getInput(entry).classList.remove('roster_promoted'); 
+            R.getInput(entry).classList.remove('roster_promoted');
             entry.classList.remove('roster_promoted');
         },
 
         promoteEntry: function(count){
-            var entry = R.getEntry(count); 
+            var entry = R.getEntry(count);
             var obj = R.rosterObj[R.getEntryId(entry)];
 
             obj.promoted = true;
-            
+
             //R.removeElement(entry);
             //R.prependChild(R.promotedRoster, entry);
 
             R.demoteButton(R.getButton(entry, 'promote') || R.getButton(enty, 'demote'));
-            
+
             entry.classList.add('roster_promoted');
             R.getInput(entry).classList.add('roster_promoted');
         },
@@ -569,7 +569,7 @@ R =
             R.maintainButton(R.inputField, R.addButton);
         },
 
-        
+
         forEachCall: function(elem, items, call){
             items.forEach(function(item){
                 call(item);

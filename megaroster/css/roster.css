@@ -13,7 +13,7 @@ input.roster_list_item_text_container[disabled]{
 }
 
 input.roster_list_item_text_container.roster_promoted{
-    background-color:gold;
+    background-color:lightpink;
 }
 
 input.roster_input[disabled]{
@@ -55,7 +55,7 @@ div.roster_main{
     height:auto;
     transition-property: opacity;
     transition-duration: 0.2s;
-    
+
 }
 
 div.roster_entry{
@@ -71,7 +71,7 @@ a.roster_promote_button, a.roster_demote_button{
 }
 
 a.roster_save_button{
-    background-color:goldenrod;
+    background-color:gold;
 }
 
 a.roster_save_button:hover{
@@ -79,14 +79,14 @@ a.roster_save_button:hover{
 }
 
 a.roster_edit_button{
-    background-color:BlueViolet;
+    background-color:lightgreen;
 }
 
 a.roster_edit_button, a.roster_save_button{
 }
 
 a.roster_edit_button:hover{
-    background-color:purple;
+    background-color:green;
 }
 
 
@@ -117,9 +117,9 @@ input.roster_list_item_text_container{
 }
 
 
-div.roster_list div.roster_entry:first-child a.roster_up_button, 
+div.roster_list div.roster_entry:first-child a.roster_up_button,
 div.roster_list div.roster_entry:last-child a.roster_down_button {
-    background:grey;
+    background:lightblue;
     cursor:default;
 }
 
