@@ -22,7 +22,7 @@ input.roster_input[disabled]{
 }
 
 input.roster_list_item_text_container:not([disabled]){
-    background-color:lightcyan;
+    background-color:gold;
 }
 
 

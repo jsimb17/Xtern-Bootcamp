@@ -11,7 +11,6 @@ R =
 
             R.inputField = R.id('roster_input');
             R.roster = R.id('roster_list');
-            R.promotedRoster = R.id('roster_promoted_list');
             R.addButton = R.id('roster_add_button');
             R.form = R.id('roster_head');
 
@@ -88,7 +87,6 @@ R =
         },
 
         createEntry: function(obj){
-            var promoteButton = R.createButton('promote', obj.id);
             var editButton = R.createButton('edit', obj.id);
             var upButton = R.createButton('up', obj.id);
             var downButton = R.createButton('down', obj.id);
@@ -97,13 +95,9 @@ R =
             var field = R.createField(obj.value, obj.id);
 
             var entry = R.assembleEntry(field, obj.id,
-                [deleteButton, editButton, promoteButton, upButton, downButton]);
+                [editButton, upButton, downButton, deleteButton]);
 
-            if(obj.promoted){
-                R.promoteEntry(entry);
-            }else{
-                R.demoteEntry(entry);
-            }
+
 
             if(obj.editing){
                 R.editEntry(entry);
@@ -175,12 +169,6 @@ R =
             button.dataset.rosterCount = count;
 
             switch (rosterButtonType) {
-                case 'promote':
-                    R.promoteButton(button);
-                    break;
-                case 'demote':
-                    R.demoteButton(button);
-                    break;
                 case 'edit':
                     R.editButton(button);
                     break;
@@ -210,9 +198,7 @@ R =
             R.maintainButton(R.inputField, R.addButton);
         },
 
-        promoteEntryHandler: function(ev){
-            R.promoteEntry(R.getCount(ev.currentTarget));
-        },
+
 
         demoteEntryHandler: function(ev){
             R.demoteEntry(R.getCount(ev.currentTarget));
@@ -415,14 +401,6 @@ R =
             R.removeElement(entry);
         },
 
-        promoteButton: function(button){
-            R.clearButton(button);
-            R.appendIcon(button, 'star-o');
-
-            R.addClasses(button, ['roster_promote_button', 'secondary']);
-
-            button.onclick = R.promoteEntryHandler;
-        },
 
         demoteButton: function(button){
             if( button === null ){
@@ -538,31 +516,21 @@ R =
             var entry = R.getEntry(count);
             var obj = R.rosterObj[R.getEntryId(entry)];
 
-            obj.promoted = false;
+
 
             //R.removeElement(entry);
             //R.prependChild(R.roster, entry);
 
-            R.promoteButton(R.getButton(entry, 'demote') || R.getButton(entry, 'promote'));
 
-            R.getInput(entry).classList.remove('roster_promoted');
-            entry.classList.remove('roster_promoted');
         },
 
-        promoteEntry: function(count){
-            var entry = R.getEntry(count);
-            var obj = R.rosterObj[R.getEntryId(entry)];
 
-            obj.promoted = true;
 
             //R.removeElement(entry);
             //R.prependChild(R.promotedRoster, entry);
 
-            R.demoteButton(R.getButton(entry, 'promote') || R.getButton(enty, 'demote'));
 
-            entry.classList.add('roster_promoted');
-            R.getInput(entry).classList.add('roster_promoted');
-        },
+
 
         resetHead: function(){
             R.inputField.value = '';
