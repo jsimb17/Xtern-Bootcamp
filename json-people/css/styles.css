@@ -14,7 +14,7 @@ body {
     font-size: 0.75rem;
     padding: 0.875rem 1.125rem; }
     #people li:last-child {
-      border-bottom: 0; }
+      border-bottom: 0; } 
 
 .menu > li > a {
   background: #4d5158;
