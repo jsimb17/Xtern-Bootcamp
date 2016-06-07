@@ -125,13 +125,13 @@ var megaRoster = {
       this.moveUp(listItem.nextElementSibling);
     }
   },
-  
+
   clearList: function(ev) {
     $('#target').click( function(ev) {
-      if(confirm("Do you want to clear the list?")){
+      if(confirm("Do you want to clear?")){
         ev.preventDefault();
         $('#studentList').empty();
-      }      
+      }
     });
   },
 
@@ -139,12 +139,12 @@ var megaRoster = {
     $('a[data-remote="true"]').on('click', function(ev) {
      ev.preventDefault();
         $.ajax({
-          url: "https://mutant-school.herokuapp.com/api/v1/mutants", 
+          url: "https://mutant-school.herokuapp.com/api/v1/mutants",
           method: 'GET'
         }).done(function(data) {
           if(data) {
             for (ele of data){
-              
+
               console.log(JSON.stringify(ele.real_name));
               var stud = megaRoster.buildListItem(JSON.stringify(ele.real_name));
               $('#studentList').append(stud);
