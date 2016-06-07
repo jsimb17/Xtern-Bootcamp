@@ -8,7 +8,7 @@
  * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * http://jquery.org/license
- *
+ * 
  * Date: 2016-03-17T17:51Z
  */
 
