@@ -99,7 +99,7 @@
      * @param {String} plugins - optional string of an individual plugin key, attained by calling `$(element).data('pluginName')`, or string of a plugin class i.e. `'dropdown'`
      * @default If no argument is passed, reflow all currently active plugins.
      */
-    reInit: function (plugins) {
+    reInit: function (plugins) { 
       var isJQ = plugins instanceof $;
       try {
         if (isJQ) {
