@@ -27,7 +27,7 @@ $('a[data-remote-pokemon="true"]').on('click', function(e) {
   $.ajax({
     url: $(this).attr('href'),
     method: 'get',
-    success: getAllPokemon
+    success: getAllPokemon 
   });
 });
 
