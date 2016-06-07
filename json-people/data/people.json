@@ -1,6 +1,6 @@
 loadResults({
   "people": [
-    {
+    { 
       "firstName": "Davey",
       "lastName": "Strus",
       "secret": "Last remaining citizen of the planet Zebes."
