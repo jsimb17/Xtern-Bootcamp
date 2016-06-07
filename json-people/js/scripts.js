@@ -1,4 +1,4 @@
-var people = [];
+var people = []; 
 
 $('#menuToggle').on('click', function() {
   $('nav ul').toggle(400);
