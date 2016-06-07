@@ -4,7 +4,7 @@ window.whatInput = (function() {
 
   /*
     ---------------
-    variables
+    variables 
     ---------------
   */
 
