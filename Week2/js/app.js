@@ -37,6 +37,7 @@ var megaRoster = {
     var span = document.createElement('span');
     span.innerText = studentName;
     span.className = 'studentName';
+    span.style = "padding-right: 1rem";
     listItem.appendChild(span);
     this.appendLinks(listItem);
     return listItem;
@@ -45,6 +46,8 @@ var megaRoster = {
   appendLinks: function(listItem) {
     var span = document.createElement('span');
     span.className += 'actions'
+
+    //Remove Link
     var removeLink = this.buildLink({
       contents: '<i class="fa fa-times fa-2x"></i>',
       className: 'alert button',
@@ -52,12 +55,16 @@ var megaRoster = {
         listItem.remove();
       }
     });
+
+    //Promote Link
     var promoteLink = this.buildLink({
       contents: '<i class="fa fa-star fa-2x "></i>',
       handler: function() {
         this.promote(listItem);
       }.bind(this)
     });
+
+    //Up Link
     var moveUpLink = this.buildLink({
       contents: '<i class="fa fa-arrow-up fa-2x"></i>',
       className: 'moveUp',
@@ -65,6 +72,8 @@ var megaRoster = {
         this.moveUp(listItem);
       }.bind(this)
     });
+
+    //Down Link
     var moveDownLink = this.buildLink({
       contents: '<i class="fa fa-arrow-down fa-2x"></i>',
       className: 'moveDown',
@@ -72,17 +81,21 @@ var megaRoster = {
         this.moveDown(listItem);
       }.bind(this)
     });
+
+    //Edit Link
     span.appendChild(this.buildLink({
-      contents: '<i style="margin-left:1rem" class="fa fa-pencil fa-2x"></i>',
+      contents: '<i style="padding-left:3rem" class="fa fa-pencil fa-2x"></i>',
       className: 'edit',
       handler: function() {
         this.toggleEditable(listItem.querySelector('span.studentName'));
       }.bind(this)
     }));
-    span.appendChild(removeLink);
+
+    //Appending all links to list item
     span.appendChild(promoteLink);
     span.appendChild(moveUpLink);
     span.appendChild(moveDownLink);
+    span.appendChild(removeLink);
     listItem.appendChild(span);
   },
 
@@ -99,18 +112,17 @@ var megaRoster = {
     var toggleElement = el.parentElement.querySelector('a.edit');
     if (el.contentEditable === 'true') {
       el.contentEditable = 'false';
-      toggleElement.innerHTML = '<i style="margin-left:1rem" class="fa fa-pencil fa-2x"></i>';
+      toggleElement.innerHTML = '<i style="padding-left:3rem" class="fa fa-pencil fa-2x"></i>';
     }
     else {
       el.contentEditable = 'true';
       el.focus();
-      toggleElement.innerHTML = '<i style="margin-left:1rem" class="fa fa-check fa-2x"></i>';
+      toggleElement.innerHTML = '<i style="padding-left:3rem" class="fa fa-check fa-2x"></i>';
     }
   },
 
   promote: function(listItem) {
     this.prependChild(this.studentList, listItem);
-    debugger;
   },
 
   moveUp: function(listItem) {
@@ -128,7 +140,7 @@ var megaRoster = {
 
   clearList: function(ev) {
     $('#target').click( function(ev) {
-      if(confirm("Do you want to clear?")){
+      if(confirm("Do you want to clear the list?")){
         ev.preventDefault();
         $('#studentList').empty();
       }
@@ -137,21 +149,27 @@ var megaRoster = {
 
   setupAjax: function(ev) {
     $('a[data-remote="true"]').on('click', function(ev) {
-     ev.preventDefault();
+      ev.preventDefault();
+      for (var i = 1; i < 10; i++) {
         $.ajax({
-          url: "https://mutant-school.herokuapp.com/api/v1/mutants",
+          url: "http://pokeapi.co/api/v2/pokemon/" + i,
           method: 'GET'
         }).done(function(data) {
           if(data) {
-            for (ele of data){
-
-              console.log(JSON.stringify(ele.real_name));
-              var stud = megaRoster.buildListItem(JSON.stringify(ele.real_name));
-              $('#studentList').append(stud);
-            }
+              console.log(data.name);
+              $('#studentList').append(megaRoster.buildListItem(data.name));
           }
         });
-    })
+      };
+    });
+
+    $('#exportbutton').on('click', function(ev){
+        ev.preventDefault();
+        $.post( "https://mutant-school.herokuapp.com/api/v1/mutants", {
+          real_name: "Test",
+          mutant_name: "Test"
+        });
+      });
   },
 };
 megaRoster.init('#studentList');
