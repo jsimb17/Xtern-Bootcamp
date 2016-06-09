@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Person:</strong>
+  <%= link_to @rivalry.person.name, @rivalry.person %>
+</p>
+
+<p>
+  <strong>Rival:</strong>
+  <%= link_to @rivalry.rival.name, @rivalry.rival %>
+</p>
+
+<%= link_to 'Edit', edit_rivalry_path(@rivalry) %> |
+<%= link_to 'Back', rivalries_path %>
